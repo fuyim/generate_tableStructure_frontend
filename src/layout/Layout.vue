@@ -1,7 +1,11 @@
 <template>
-  <div id="main">
+  <div id="main" class="container">
     <header>
-      <nav class="navbar" role="navigation" aria-label="main navigation">
+      <nav
+        class="navbar is-white is-spaced has-shadow"
+        role="navigation"
+        aria-label="main navigation"
+      >
         <div class="navbar-brand">
           <a class="navbar-item" href="https://bulma.io">
             <img
@@ -46,25 +50,62 @@
           <div class="navbar-end">
             <div class="navbar-item">
               <div class="buttons">
-                <a class="button is-primary">
-                  <strong>Sign up</strong>
-                </a>
-                <a class="button is-light"> Log in </a>
+                <a-button size="large" type="primary">按钮</a-button>
               </div>
             </div>
           </div>
         </div>
       </nav>
     </header>
-    <div>中间</div>
-    <footer>底部</footer>
+    <div>
+      <router-view></router-view>
+    </div>
+    <footer class="footer">
+      <div class="container footer-center">
+        <a-row>
+          <a-col :span="8">
+            <a
+              href="https://github.com/fuyim/tablestructure_generate"
+              target="_blank"
+            >
+              <svg-icon iconName="icon-github-fill"></svg-icon>
+            </a>
+          </a-col>
+          <a-col :span="8">
+            <a
+              href="https://github.com/fuyim/tablestructure_generate"
+              target="_blank"
+            >
+              <svg-icon iconName="icon-gitee"></svg-icon>
+            </a>
+          </a-col>
+          <a-col :span="8">
+            <a
+              href="https://github.com/fuyim/tablestructure_generate"
+              target="_blank"
+            >
+              <svg-icon iconName="icon-zuozhe"></svg-icon>
+            </a>
+          </a-col>
+        </a-row>
+      </div>
+    </footer>
   </div>
 </template>
+
 
 <script setup>
 </script>
 
 <style lang="scss" scoped>
-// @import "bulma/sass/utilities/_all.scss";
-// @import "bulma/sass/components/navbar.scss";
+.footer {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  background-color: rgb(247, 242, 242);
+  font-size: 14px;
+}
+.footer-center {
+  width: 50%;
+}
 </style>

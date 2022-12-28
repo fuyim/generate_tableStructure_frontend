@@ -1,6 +1,6 @@
 <template>
-  <div>
-    hello world
+  <div class="center">
+    中间sssss
   </div>
 </template>
 
@@ -8,6 +8,9 @@
 
 </script>
 
-<style>
-
+<style scoped>
+  .center {
+    width: 100%;
+    height: 200px;
+  }
 </style>
