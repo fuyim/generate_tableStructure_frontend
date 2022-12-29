@@ -1,6 +1,6 @@
 <template>
   <div class="center">
-    中间sssss
+    hello world
   </div>
 </template>
 
