@@ -15,11 +15,16 @@ const routes:Array<RouteRecordRaw> = [
             {
                 path: 'index',
                 name: 'Index',
-                component: () => import('@/page/helloworld.vue'),
+                component: () => import('@/page/index.vue'),
                 meta: {
                     title: '首页',
                 }
             },
+            {
+                path: 'hellowrold',
+                name: 'Hellowrold',
+                component: () => import('@/page/helloworld.vue'),
+            }
         ]
     },
     {

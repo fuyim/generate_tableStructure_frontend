@@ -11,6 +11,6 @@
 <style scoped>
   .center {
     width: 100%;
-    height: 200px;
+    height: 2000px;
   }
 </style>
