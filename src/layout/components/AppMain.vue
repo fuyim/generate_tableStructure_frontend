@@ -12,7 +12,7 @@
 <style scoped>
 .app-main {
   /* 50= navbar  50  */
-  min-height: calc(100vh - 50px);
+  min-height: calc(70vh - 50px);
   margin: 20px auto;
   width: 100%;
   position: relative;

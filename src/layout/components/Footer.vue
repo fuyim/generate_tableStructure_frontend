@@ -55,6 +55,7 @@
     <a-drawer
       v-model:visible="visible"
       class="custom-class"
+      style="text-align: center;"
       title="站 点 信 息"
       placement="right"
       :mask="true"

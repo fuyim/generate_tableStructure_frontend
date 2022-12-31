@@ -1,4 +1,4 @@
-import { defineConfig , loadEnv} from 'vite'
+import { defineConfig , loadEnv, optimizeDeps} from 'vite'
 import vue from '@vitejs/plugin-vue'
 // 兼容传统浏览器插件
 import legacy from '@vitejs/plugin-legacy'
@@ -60,7 +60,14 @@ export default defineConfig(({command,mode}) => {
     // 依赖优化选项
     optimizeDeps: {
       // 默认情况下，不在 node_modules 中的，链接的包不会被预构建。使用此选项可强制预构建链接的包。
-      include: ['axios'],
+      include: [
+        'axios',
+        `monaco-editor/esm/vs/language/json/json.worker`,
+        `monaco-editor/esm/vs/language/css/css.worker`,
+        `monaco-editor/esm/vs/language/html/html.worker`,
+        `monaco-editor/esm/vs/language/typescript/ts.worker`,
+        `monaco-editor/esm/vs/editor/editor.worker`
+      ],
     },
 
     // 插件配置

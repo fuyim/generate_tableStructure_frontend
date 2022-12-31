@@ -62,15 +62,11 @@
 
 <script setup lang="ts">
 import {ref} from 'vue';
-// import toPage from '@/hooks/toPage'
 import { useRouter } from "vue-router";
 const router = useRouter();
 const top = ref<number>(0);
 const goToPage = (url:string) =>{
-  router.push({
-    path: url
-  });
-
+  router.push(url)
 }
 </script>
 

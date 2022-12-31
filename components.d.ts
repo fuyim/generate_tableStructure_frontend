@@ -20,6 +20,8 @@ declare module '@vue/runtime-core' {
     AList: typeof import('ant-design-vue/es')['List']
     AListItem: typeof import('ant-design-vue/es')['ListItem']
     ARow: typeof import('ant-design-vue/es')['Row']
+    ClipBoard: typeof import('./src/components/ClipBoard/ClipBoard.vue')['default']
+    CodeEditor: typeof import('./src/components/CodeEditor/CodeEditor.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./src/components/SvgIcon/SvgIcon.vue')['default']

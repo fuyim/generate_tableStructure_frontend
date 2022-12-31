@@ -1,16 +1,16 @@
 <template>
   <div class="center">
-    hello world
+    Hellowrold
   </div>
 </template>
 
-<script setup>
-
+<script setup lang="ts">
+const x = 1
 </script>
 
 <style scoped>
-  .center {
-    width: 100%;
-    height: 2000px;
-  }
+.center {
+  width: 100%;
+  height: 2000px;
+}
 </style>
