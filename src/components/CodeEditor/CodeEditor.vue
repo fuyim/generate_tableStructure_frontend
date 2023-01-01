@@ -10,7 +10,8 @@ import htmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
 import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
 import EditorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import { language as sqlLanguage } from "monaco-editor/esm/vs/basic-languages/sql/sql.js";
-import { nextTick, ref, onBeforeUnmount, onMounted, reactive, inject, defineProps, defineEmits} from "vue";
+import give from "@/utils/bus"
+import { nextTick, onBeforeUnmount, reactive, defineProps, defineEmits, watch} from "vue";
 interface EditProp {
   text: string;
   language: string;
@@ -19,25 +20,30 @@ interface EditProp {
   fontSize: number;
   height: number;
 }
-const editProp: EditProp = {
+const editProp: EditProp =  reactive({
   text: "",
   language: "sql",
   theme: "vs-dark",
   readonly: false,
   fontSize: 14,
   height: 400,
-};
-const fatherProp = defineProps(['heights'])
-fatherProp?fatherProp?.heights:editProp?.height;
-const copyTest = defineEmits([editProp.text])
+})
 
-const handleCopy = () => {
-    copyTest('fun',editProp?.text)
+
+
+// 高度设置
+const fatherProp = defineProps(['heights'])
+fatherProp?fatherProp.heights:editProp.height;
+
+// 传值
+watch(editProp,(newValue,oldValue) => {
+  send(newValue.text)
+})
+
+const send = (text) => {
+  give.emit("sendMessage",text)
 }
 
-onMounted(() => {
-    handleCopy
-})
 /**
  * VS Code 编辑器
  *
