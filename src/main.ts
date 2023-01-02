@@ -10,17 +10,22 @@ import '@/assets/iconfont/iconfont';
 import { DatePicker } from 'ant-design-vue';
 // 路由
 import router from './router/index'
+// vuex
+import { store } from '@/store/index'
 
 // 全局组件
 import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
 import CodeEditor from '@/components/CodeEditor/CodeEditor.vue'
 import ClipBoard from '@/components/ClipBoard/ClipBoard.vue'
+import SuccessBtn from '@/components/SuccessBtn/SuccessBtn.vue'
 
 
 const app =  createApp(App)
 app.component('SvgIcon', SvgIcon);
 app.component('CodeEditor', CodeEditor)
 app.component('Clipboard', Clipboard)
+app.component('SucceedBtn', SuccessBtn)
 app.use(DatePicker);
 app.use(router)
+app.use(store);
 app.mount('#app')

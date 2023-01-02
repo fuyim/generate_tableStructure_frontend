@@ -1,9 +1,9 @@
 <template>
-  <div class="container">
+  <div class="">
     <div>
       <Navbar />
     </div>
-    <AppMain />
+    <AppMain class="container" />
     <Footer />
   </div>
   <div id="components-back-top-demo-custom">
