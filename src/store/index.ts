@@ -1,14 +1,10 @@
 import { createStore } from 'vuex';
-
+import copy from '@/store/module/copy';
+import getters from '@/store/getters';
 export const store = createStore({
-    state (){
-        return {
-            count: 0,
-        }
+    modules: {
+        copy,
     },
-    mutations: {
-        increment (state) {
-            state.count++
-        }
-    },
+    getters,
+    strict: import.meta.env.VITE_ENV,
 });

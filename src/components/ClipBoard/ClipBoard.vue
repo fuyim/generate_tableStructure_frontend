@@ -14,15 +14,13 @@
 <script lang='ts' setup>
 import Clipboard from "clipboard";
 import { message } from "ant-design-vue";
-import give from "@/utils/bus";
-import { reactive, defineEmits, defineProps, ref, toRef } from "vue";
+import { useStore } from 'vuex'
+import { reactive, defineEmits, defineProps, ref, toRef, computed } from "vue";
 
-const copyText = ref(" ");
-give.on("sendMessage", (value:string) => {
-  copyText.value = value
-});
+const store = useStore();
+
 const copyFun = () => {
-  handleCopy(copyText.value);
+  handleCopy(store.getters.copyText);
 };
 const handleCopy = async (copyText) => {
   let clipboard = new Clipboard(".copy", {

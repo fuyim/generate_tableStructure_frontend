@@ -10,7 +10,7 @@ import htmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
 import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
 import EditorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import { language as sqlLanguage } from "monaco-editor/esm/vs/basic-languages/sql/sql.js";
-import give from "@/utils/bus"
+import { useStore } from 'vuex'
 import { nextTick, onBeforeUnmount, reactive, defineProps, defineEmits, watch} from "vue";
 interface EditProp {
   text: string;
@@ -29,7 +29,7 @@ const editProp: EditProp =  reactive({
   height: 400,
 })
 
-
+const store = useStore();
 
 // 高度设置
 const fatherProp = defineProps(['heights'])
@@ -41,8 +41,9 @@ watch(editProp,(newValue,oldValue) => {
 })
 
 const send = (text) => {
-  give.emit("sendMessage",text)
+  store.dispatch('copyText',text)
 }
+
 
 /**
  * VS Code 编辑器
