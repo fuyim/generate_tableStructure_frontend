@@ -36,9 +36,9 @@ export default defineConfig(({command,mode}) => {
         // 配置代理
         // 带选项写法：http://localhost:5173/api/bar -> http://jsonplaceholder.typicode.com/bar
         [env.VITE_APP_BASE_API]: {
-          target: 'http://localhost:8080',
+          target: `http://localhost:8080`,
           changeOrigin: true,
-          rewrite: (path) => path.replace('^'+env.VITE_APP_BASE_API, ''),
+          rewrite: (path) => path.replace(env.VITE_APP_BASE_API, '')
         },
       },
       // 为开发服务器配置 CORS。默认启用并允许任何源

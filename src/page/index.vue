@@ -80,6 +80,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
+import { exportExcel } from "@/api/TableStructure/tableStructure";
 interface FormState {
   username: string;
   password: string;
@@ -95,7 +96,11 @@ export default defineComponent({
       hostname: "",
     });
     const onFinish = (values: any) => {
-      console.log("Success:", values);
+      exportExcel(formState).then((res) => {
+        console.log(res);
+      }).catch((error) => {
+        console.log(error);
+      })
     };
     const onFinishFailed = (errorInfo: any) => {
       console.log("Failed:", errorInfo);

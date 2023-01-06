@@ -24,7 +24,12 @@ const routes:Array<RouteRecordRaw> = [
                 path: 'hellowrold',
                 name: 'Hellowrold',
                 component: () => import('@/page/helloworld.vue'),
-            }
+            },
+            {
+                path: 'test',
+                name: 'Test',
+                component: () => import('@/page/test.vue'),
+            },
         ]
     },
     {

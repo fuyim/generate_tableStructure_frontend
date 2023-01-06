@@ -18,13 +18,15 @@ import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
 import CodeEditor from '@/components/CodeEditor/CodeEditor.vue'
 import ClipBoard from '@/components/ClipBoard/ClipBoard.vue'
 import SuccessBtn from '@/components/SuccessBtn/SuccessBtn.vue'
+import FileDownVue from '@/components/FileDown/FileDown.vue';
 
 
 const app =  createApp(App)
 app.component('SvgIcon', SvgIcon);
 app.component('CodeEditor', CodeEditor)
-app.component('Clipboard', Clipboard)
+app.component('Clipboard', ClipBoard)
 app.component('SucceedBtn', SuccessBtn)
+app.component('FileDownVue', FileDownVue)
 app.use(DatePicker);
 app.use(router)
 app.use(store);

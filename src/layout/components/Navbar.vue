@@ -33,7 +33,7 @@
             <a class="navbar-item" @click="goToPage('/')"> <span class="navbar-text">表结构</span> </a>
 
             <a class="navbar-item" @click="goToPage('/Hellowrold')"> <span class="navbar-text">表SQL</span> </a>
-
+            <a class="navbar-item" @click="goToPage('/Test')"> <span class="navbar-text">测试</span> </a>
             <!-- <div class="navbar-item has-dropdown is-hoverable">
               <a class="navbar-link"> 更多 </a>
 

@@ -29,6 +29,7 @@ declare module '@vue/runtime-core' {
     ASpace: typeof import('ant-design-vue/es')['Space']
     ClipBoard: typeof import('./src/components/ClipBoard/ClipBoard.vue')['default']
     CodeEditor: typeof import('./src/components/CodeEditor/CodeEditor.vue')['default']
+    FileDown: typeof import('./src/components/FileDown/FileDown.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SuccessBtn: typeof import('./src/components/SuccessBtn/SuccessBtn.vue')['default']
