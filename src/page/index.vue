@@ -100,6 +100,7 @@ export default defineComponent({
         console.log(res);
       }).catch((error) => {
         console.log(error);
+        console.log("test");
       })
     };
     const onFinishFailed = (errorInfo: any) => {
