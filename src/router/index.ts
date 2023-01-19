@@ -2,11 +2,11 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 
-const routes:Array<RouteRecordRaw> = [
+const routes: Array<RouteRecordRaw> = [
     {
         path: '',
         component: () => import('@/layout/Layout.vue'),
-        redirect: to=>{
+        redirect: to => {
             return {
                 path: 'index'
             }
@@ -21,14 +21,14 @@ const routes:Array<RouteRecordRaw> = [
                 }
             },
             {
-                path: 'hellowrold',
-                name: 'Hellowrold',
-                component: () => import('@/page/helloworld.vue'),
-            },
-            {
                 path: 'test',
                 name: 'Test',
                 component: () => import('@/page/test.vue'),
+            },
+            {
+                path: 'sqlgenerate',
+                name: 'SqlGenerate',
+                component: () => import('@/page/sqlGenerate/SqlGenerate.vue'),
             },
         ]
     },
@@ -43,9 +43,9 @@ const routes:Array<RouteRecordRaw> = [
 ]
 // 路由参数配置
 const router = createRouter({
-    history: createWebHistory(),
-    routes
-})
+            history: createWebHistory(),
+            routes
+        })
 
 export default router
 

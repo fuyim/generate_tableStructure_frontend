@@ -19,6 +19,7 @@ import CodeEditor from '@/components/CodeEditor/CodeEditor.vue'
 import ClipBoard from '@/components/ClipBoard/ClipBoard.vue'
 import SuccessBtn from '@/components/SuccessBtn/SuccessBtn.vue'
 import FileDownVue from '@/components/FileDown/FileDown.vue';
+import DictData from '@/components/DictData/dictData.vue';
 
 
 const app =  createApp(App)
@@ -27,6 +28,7 @@ app.component('CodeEditor', CodeEditor)
 app.component('Clipboard', ClipBoard)
 app.component('SucceedBtn', SuccessBtn)
 app.component('FileDownVue', FileDownVue)
+app.component('DictData', DictData)
 app.use(DatePicker);
 app.use(router)
 app.use(store);

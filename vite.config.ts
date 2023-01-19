@@ -72,7 +72,13 @@ export default defineConfig(({command,mode}) => {
 
     // 插件配置
     plugins: [
-      vue(),
+      vue({
+        template: {
+          compilerOptions: {
+            isCustomElement: (tag) => ['md-linedivider'].includes(tag),
+          }
+        }
+      }),
       legacy({
         targets: ['defaults', 'not IE 11'],
         renderLegacyChunks: true,

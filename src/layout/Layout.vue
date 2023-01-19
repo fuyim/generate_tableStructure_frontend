@@ -1,13 +1,13 @@
 <template>
-  <div class="">
-    <div>
+  <div class="app-wrapper">
+    <div class="fixed-header">
       <Navbar />
     </div>
     <AppMain class="container" />
     <Footer />
   </div>
   <div id="components-back-top-demo-custom">
-    <a-back-top :visibilityHeight=400>
+    <a-back-top :visibilityHeight="400">
       <div class="ant-back-top-inner">UP</div>
     </a-back-top>
   </div>
@@ -34,5 +34,4 @@ import { AppMain, Navbar, Footer } from "./components";
 #components-back-top-demo-custom .ant-back-top-inner:hover {
   background-color: #2f9bf4;
 }
-
 </style>

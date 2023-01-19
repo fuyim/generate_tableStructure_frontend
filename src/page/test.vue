@@ -4,12 +4,14 @@
     <br />
     <a-button @click="upload">上传</a-button>
     <file-down>下载</file-down>
+    <dict-data size="large" dictkey="sys_field_type" width="120"></dict-data>
+    <dict-data size="large" dictkey="sys_user_sex" width="120"></dict-data>
   </div>
 </template>
 
 <script lang='ts'>
 import FileDown from "@/components/FileDown/FileDown.vue";
-import { exportExcel } from '@/api/TableStructure/tableStructure'
+import { exportExcel } from "@/api/TableStructure/tableStructure";
 import { defineComponent } from "vue";
 import { useStore } from "vuex";
 export default defineComponent({
@@ -25,11 +27,10 @@ export default defineComponent({
         hostname: "localhost",
       });
       store.dispatch("fileName", "test.docx");
-
     };
     return {
-        upload
-    }
+      upload,
+    };
   },
 });
 </script>

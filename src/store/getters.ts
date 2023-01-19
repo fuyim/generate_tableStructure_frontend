@@ -4,6 +4,7 @@ const getters = {
     params: state => state.file.params,
     fileName: state => state.file.fileName,
     isLoding: state => state.file.isLoding,
+    dictMap : state => state.dict.dictMap,
 }
 
 export default getters;
