@@ -1,5 +1,5 @@
 <template>
-  <div id="codeEditBox" :style="'height:' + heights + 'px'"></div>
+  <div id="codeEditBox" :text="text" :style="heights"></div>
 </template>
 
 <script lang="ts" setup>
@@ -11,7 +11,7 @@ import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker"
 import EditorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import { language as sqlLanguage } from "monaco-editor/esm/vs/basic-languages/sql/sql.js";
 import { useStore } from 'vuex'
-import { nextTick, onBeforeUnmount, reactive, defineProps, defineEmits, watch} from "vue";
+import { nextTick, onBeforeUnmount,  reactive, defineProps, defineEmits, watch, computed} from "vue";
 interface EditProp {
   text: string;
   language: string;
@@ -26,14 +26,30 @@ const editProp: EditProp =  reactive({
   theme: "vs-dark",
   readonly: false,
   fontSize: 14,
-  height: 400,
+  height: 0,
+})
+
+const props = defineProps({
+  text: {
+    type: String,
+    default: "",
+  },
+  heights: {
+    type: Number,
+    default: 400,
+  },
+})
+
+const text = computed(() => {
+  return editProp.text = props.text
+})
+
+const heights = computed(() => {
+  return `height:${props.heights}px`
 })
 
 const store = useStore();
 
-// 高度设置
-const fatherProp = defineProps(['heights'])
-fatherProp?fatherProp.heights:editProp.height;
 
 // 传值
 watch(editProp,(newValue,oldValue) => {

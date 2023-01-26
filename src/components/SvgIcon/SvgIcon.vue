@@ -1,11 +1,13 @@
 <template>
-  <svg :class="svgClass" aria-hidden="true">
-    <use :xlink:href="iconClassName" :fill="color" />
-  </svg>
+  <div>
+    <svg :class="svgClass" aria-hidden="true">
+      <use :xlink:href="iconClassName" :fill="color" />
+    </svg>
+  </div>
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, defineProps } from "vue";
 const props = defineProps({
   iconName: {
     type: String,
@@ -17,7 +19,7 @@ const props = defineProps({
   },
   color: {
     type: String,
-    default: "#409eff",
+    default: "",
   },
 });
 // 图标在 iconfont 中的名字

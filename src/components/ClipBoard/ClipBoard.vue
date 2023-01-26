@@ -3,7 +3,7 @@
     <a-button class="copy" type="primary" size="default" @click="copyFun()">
       <a-space>
         <span class="text">
-          <svg-icon iconName="icon-fuzhi"></svg-icon>
+          <svg-icon :color="color" iconName="icon-copy"></svg-icon>
         </span>
         <slot></slot>
       </a-space>
@@ -14,19 +14,32 @@
 <script lang='ts' setup>
 import Clipboard from "clipboard";
 import { message } from "ant-design-vue";
-import { useStore } from 'vuex'
+import { useStore } from "vuex";
 import { reactive, defineEmits, defineProps, ref, toRef, computed } from "vue";
-
+const props = defineProps({
+  color: {
+    type: String,
+    default: "",
+  },
+});
 const store = useStore();
 
+const color = computed(() => {
+  if (props.color) {
+    return props.color;
+  }
+  return "#409eff";
+})
+
 const copyFun = () => {
+  console.log("store.getters.copyText", store.getters.copyText);
   handleCopy(store.getters.copyText);
 };
 const handleCopy = async (copyText) => {
   let clipboard = new Clipboard(".copy", {
     text: () => {
-      if(copyText === ''){
-        return ' ';
+      if (copyText === "") {
+        return " ";
       }
       return copyText;
     },

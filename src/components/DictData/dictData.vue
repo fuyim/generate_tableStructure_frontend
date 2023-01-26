@@ -6,7 +6,11 @@
         :size="size"
         :value="value"
         :style="width"
-        @change="handleChange"
+        :options="options"
+        :disabled="disabled"
+        show-search
+        :filter-option="filterOption"
+        @select="handleChange"
         @focus="focus"
       >
         <a-select-option
@@ -14,7 +18,7 @@
           :key="index"
           :value="item.dictValue"
         >
-        {{ item.dictLabel }}
+          {{ item.dictLabel }}
         </a-select-option>
       </a-select>
     </slot>
@@ -24,10 +28,14 @@
 <script lang='ts' setup>
 import {
   defineComponent,
+  defineEmits,
+  defineProps,
   computed,
   reactive,
   watch,
   onMounted,
+  onBeforeMount,
+  nextTick,
   ref,
 } from "vue";
 import { useStore } from "vuex";
@@ -42,8 +50,12 @@ const props = defineProps({
     default: "100",
   },
   value: {
-    type: [String, Number],
-    default: "vue",
+    type: [Number, String, Array],
+    default: undefined,
+  },
+  options: {
+    type: Array,
+    default: null,
   },
   size: {
     type: String,
@@ -53,16 +65,22 @@ const props = defineProps({
     type: String,
     default: "form",
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  }
 });
 const dickKey = computed(() => {
   return props.dictkey;
 });
 
 const width = computed(() => {
-    return `width: ${props.width}px`
-})
+  return `width: ${props.width}%`;
+});
 
-const dict = ref("");
+const disabled = computed(() => {
+  return props.disabled;
+});
 
 const value = computed(() => {
   return props.value;
@@ -71,13 +89,17 @@ const value = computed(() => {
 const size = computed(() => {
   return props.size || "default";
 });
+const dict = computed(() => {
+  return store.getters.dictMap[dickKey.value] || {}
+});
 
-const handleChange = (value: string) => {
-  console.log("value:", value);
+const emit = defineEmits(["handleChange"]);
+const handleChange = (value: string,options:object) => {
+  emit("handleChange", dict.value.items[options.key]);
 };
 
 const focus = () => {
-  dict.value = store.getters.dictMap[dickKey.value] || {};
+  // dict.value = store.getters.dictMap[dickKey.value] || {};
 };
 watch(dickKey, (newValue, oldValue) => {
   store.dispatch("getByDictkey", {
@@ -85,11 +107,17 @@ watch(dickKey, (newValue, oldValue) => {
   });
 });
 
+// watch(value, (newValue, oldValue) => {
+//   console.log("值发生了改变：", newValue, oldValue);
+// });
 onMounted(() => {
   store.dispatch("getByDictkey", {
     dictKey: dickKey.value,
   });
 });
+const filterOption = (input: string, option: any) => {
+  return dict.value.items[option.key].dictLabel.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+};
 </script>
 
 <style scoped>

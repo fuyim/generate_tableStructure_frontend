@@ -36,7 +36,7 @@ const actions = {
                 items: []
             })
         }
-        getDictDataByType(data.dictKey).then((res) => {
+        getDictDataByType(data.dictKey).then((res) => { 
             if (res.data) {
                 commit(SAVE_DICT_ITEM, {
                     dictKey: data.dictKey,
