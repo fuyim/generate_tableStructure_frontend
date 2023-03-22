@@ -30,6 +30,11 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'SqlGenerate',
                 component: () => import('@/page/sqlGenerate/SqlGenerate.vue'),
             },
+            {
+                path: 'codeGenerate',
+                name: 'codeGenerate',
+                component: () => import('@/page/codeGenerate/codeGenerate.vue'),
+            },
         ]
     },
     {

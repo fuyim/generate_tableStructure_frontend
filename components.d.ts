@@ -30,6 +30,8 @@ declare module '@vue/runtime-core' {
     ASelectOption: typeof import('ant-design-vue/es')['SelectOption']
     ASpace: typeof import('ant-design-vue/es')['Space']
     ASpin: typeof import('ant-design-vue/es')['Spin']
+    ATabPane: typeof import('ant-design-vue/es')['TabPane']
+    ATabs: typeof import('ant-design-vue/es')['Tabs']
     ClipBoard: typeof import('./src/components/ClipBoard/ClipBoard.vue')['default']
     CodeEditor: typeof import('./src/components/CodeEditor/CodeEditor.vue')['default']
     DictData: typeof import('./src/components/DictData/dictData.vue')['default']

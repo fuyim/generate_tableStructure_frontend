@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <svg :class="svgClass" aria-hidden="true">
+  <div style="display:inline">
+    <svg :class="svgClass" aria-hidden="true" :style="fontSize">
       <use :xlink:href="iconClassName" :fill="color" />
     </svg>
   </div>
@@ -18,6 +18,10 @@ const props = defineProps({
     default: "",
   },
   color: {
+    type: String,
+    default: "",
+  },
+  size: {
     type: String,
     default: "",
   },
@@ -39,6 +43,12 @@ const color = computed(() => {
   }
   return "#409eff";
 });
+const fontSize = computed(() => {
+  if (props.size) {
+    return `font-size: ${props.size}px`
+  }
+  return `font-size: 13px`
+})
 </script>
 
 <style lang="scss" scoped>

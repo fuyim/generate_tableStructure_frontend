@@ -17,8 +17,11 @@
               :wrapper-col="{ span: 18 }"
               autocomplete="off"
             >
-              <a-form-item label="数据库名称" name="databaseName">
-                <a-input v-model:value="formState.databaseName" />
+              <a-form-item label="包名" name="packageName">
+                <a-input
+                  v-model:value="dynamicValidateForm.packageName"
+                  placeholder="默认包名：com.nut"
+                />
               </a-form-item>
 
               <a-form-item
@@ -30,19 +33,19 @@
                 <a-input v-model:value="dynamicValidateForm.tableName" />
               </a-form-item>
               <a-form-item label="表注释" name="tableComment">
-                <a-input v-model:value="formState.tableComment" />
+                <a-input v-model:value="dynamicValidateForm.tableComment" />
               </a-form-item>
 
               <a-form-item
-                v-if="dynamicValidateForm.fields.length > 0"
+                v-if="dynamicValidateForm.fieldList.length > 0"
                 :label-col="{ span: 0 }"
                 :wrapper-col="{ span: 24 }"
               >
                 <a-collapse
                   v-model:activeKey="activeKey"
-                  v-for="(field, index) in dynamicValidateForm.fields"
+                  v-for="(field, index) in dynamicValidateForm.fieldList"
                   :key="index"
-                  :name="['fields', index, 'field']"
+                  :name="['fieldList', index, 'field']"
                 >
                   <a-collapse-panel
                     :key="index"
@@ -60,7 +63,7 @@
                         <a-button
                           type="text"
                           size="small"
-                          v-if="index < dynamicValidateForm.fields.length - 1"
+                          v-if="index < dynamicValidateForm.fieldList.length - 1"
                           @click.stop="moveFeildDown(field, index)"
                           ><caret-down-outlined
                         /></a-button>
@@ -78,7 +81,7 @@
                         <a-col :span="12">
                           <a-form-item
                             label="字段名称"
-                            :name="['fields', index, 'fieldName']"
+                            :name="['fieldList', index, 'fieldName']"
                             v-bind="fieldLabel"
                             ref="fieldName"
                             :rules="{
@@ -99,15 +102,15 @@
                             v-bind="fieldLabel"
                           >
                             <!-- <a-select
-                              ref="select"
-                              v-model:value="field.fieldType"
-                              @focus="focus"
-                              @change="handleChange"
-                            >
-                              <a-select-option value="varchar"
-                                >varchar</a-select-option
+                                ref="select"
+                                v-model:value="field.fieldType"
+                                @focus="focus"
+                                @change="handleChange"
                               >
-                            </a-select> -->
+                                <a-select-option value="varchar"
+                                  >varchar</a-select-option
+                                >
+                              </a-select> -->
                             <dict-data
                               v-model:value="field.fieldType"
                               @handleChange="changeField($event, index)"
@@ -233,8 +236,8 @@
               </a-form-item>
 
               <!-- <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-                <a-button type="primary" html-type="submit">Submit</a-button>
-              </a-form-item> -->
+                  <a-button type="primary" html-type="submit">Submit</a-button>
+                </a-form-item> -->
             </a-form>
           </div>
           <p v-else-if="noTitleKey === '2'">app content</p>
@@ -249,18 +252,18 @@
           </a-space>
           <template #tabBarExtraContent>
             <!-- <a-select
-              ref="select"
-              v-model:value="value1"
-              style="width: 120px"
-              @focus="focus"
-              @change="handleChange"
-              size="large"
-              disabled
-            >
-              <a-select-option value="MySQL">MySQL</a-select-option>
-              <a-select-option value="Oracle">Oracle</a-select-option>
-              <a-select-option value="SQLServer">SQLServer</a-select-option>
-            </a-select> -->
+                ref="select"
+                v-model:value="value1"
+                style="width: 120px"
+                @focus="focus"
+                @change="handleChange"
+                size="large"
+                disabled
+              >
+                <a-select-option value="MySQL">MySQL</a-select-option>
+                <a-select-option value="Oracle">Oracle</a-select-option>
+                <a-select-option value="SQLServer">SQLServer</a-select-option>
+              </a-select> -->
             <dict-data
               :value="sqlValue"
               size="large"
@@ -274,9 +277,9 @@
       </a-col>
       <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
         <a-card title="生成结果">
-          <template v-if="resultStatus === 2" #extra
-            ><clip-board color="#FFFFFF">一键复制</clip-board></template
-          >
+          <template v-if="resultStatus === 2" #extra>
+            <!-- <clip-board color="#FFFFFF">一键复制</clip-board> -->
+          </template>
           <a-empty
             image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
             v-if="resultStatus === 0"
@@ -289,15 +292,50 @@
             <a-spin />
           </div>
           <div v-else="resultStatus === 2">
-            <code-editor :text="editText"></code-editor>
+            <a-tabs v-model:activeKey="activeCode">
+              <a-tab-pane key="1">
+                <template #tab>
+                  <span>
+                    <svg-icon iconName="icon-java" size="10"></svg-icon> Java
+                  </span>
+                </template>
+                <a-collapse v-model:activeKey="JavaactiveKey">
+                  <a-collapse-panel key="1" header="domain.java">
+                    <code-editor :text="editJavaDomain"></code-editor>
+                  </a-collapse-panel>
+                  <a-collapse-panel key="2" header="mapper.java">
+                    <code-editor :text="editJavaDomain"></code-editor>
+                  </a-collapse-panel>
+                </a-collapse>
+              </a-tab-pane>
+              <a-tab-pane key="2">
+                <template #tab>
+                  <span>
+                    <svg-icon
+                      iconName="icon-socialjavascript"
+                      size="10"
+                    ></svg-icon>
+                    JavaScript
+                  </span>
+                </template>
+                Tab 3
+              </a-tab-pane>
+              <a-tab-pane key="3">
+                <template #tab>
+                  <span>
+                    <svg-icon iconName="icon-vuejs" size="10"></svg-icon> Vue.JS
+                  </span>
+                </template>
+              </a-tab-pane>
+            </a-tabs>
           </div>
         </a-card>
       </a-col>
     </a-row>
   </div>
 </template>
-
-<script lang='ts'>
+  
+  <script lang='ts'>
 import { defineComponent, ref, reactive, watch } from "vue";
 import { MenuProps, CollapseProps, message } from "ant-design-vue";
 import { Form } from "ant-design-vue";
@@ -313,9 +351,11 @@ import {
   RedoOutlined,
 } from "@ant-design/icons-vue";
 import { getGenerateSql } from "@/api/generateSql/generateSql";
+import { getGenerateCode } from "@/api/generateCode/generateCode";
+import { string } from "vue-types";
 // 定义最终的json数据
 interface FormState {
-  databaseName: string;
+  packageName: string;
   tableName: string;
   tableComment: string;
 }
@@ -349,7 +389,7 @@ export default defineComponent({
     const formRef = ref<FormInstance>();
     // 响应式formState值
     const formState = reactive<FormState>({
-      databaseName: "",
+      packageName: "",
       tableName: "t_table",
       tableComment: "",
     });
@@ -373,7 +413,7 @@ export default defineComponent({
       },
       {
         key: "2",
-        tab: "导入配置",
+        tab: "自动配置",
       },
     ];
     const formItemLayout = {
@@ -424,11 +464,15 @@ export default defineComponent({
       },
     };
     const dynamicValidateForm = reactive<{
-      fields: Field[];
+      fieldList: Field[];
       tableName: string;
+      packageName: string;
+      tableComment: string;
     }>({
-      fields: [],
+      fieldList: [],
       tableName: formState.tableName,
+      packageName: formState.packageName,
+      tableComment: formState.tableComment
     });
     const { resetFields, validate, validateInfos } = useForm(
       dynamicValidateForm,
@@ -438,7 +482,7 @@ export default defineComponent({
       }
     );
     const addFields = () => {
-      dynamicValidateForm.fields.push({
+      dynamicValidateForm.fieldList.push({
         fieldName: "id",
         fieldType: "int",
         fieldTypeSize: 0,
@@ -488,23 +532,23 @@ export default defineComponent({
     // 添加通用字段
     const addCommenFields = () => {
       commentFieldArray.forEach((item) => {
-        dynamicValidateForm.fields.push(item);
+        dynamicValidateForm.fieldList.push(item);
       });
     };
     // 向上移动
     const moveFeildUp = (field: object, index: number) => {
-      dynamicValidateForm.fields[index] = dynamicValidateForm.fields[index - 1];
-      dynamicValidateForm.fields[index - 1] = field;
+      dynamicValidateForm.fieldList[index] = dynamicValidateForm.fieldList[index - 1];
+      dynamicValidateForm.fieldList[index - 1] = field;
     };
     // 向下移动
     const moveFeildDown = (field: object, index: number) => {
-      dynamicValidateForm.fields[index] = dynamicValidateForm.fields[index + 1];
-      dynamicValidateForm.fields[index + 1] = field;
+      dynamicValidateForm.fieldList[index] = dynamicValidateForm.fieldList[index + 1];
+      dynamicValidateForm.fieldList[index + 1] = field;
     };
     const removeDomain = (item: Field) => {
-      let index = dynamicValidateForm.fields.indexOf(item);
+      let index = dynamicValidateForm.fieldList.indexOf(item);
       if (index !== -1) {
-        dynamicValidateForm.fields.splice(index, 1);
+        dynamicValidateForm.fieldList.splice(index, 1);
       }
     };
     // 标签页切换
@@ -521,22 +565,19 @@ export default defineComponent({
     const handleChange = (value: string) => {
       console.log(`selected ${value}`);
     };
-    const editText = ref("");
+    const editJavaDomain = ref("");
     const generateCode = () => {
       formRef.value
         .validate()
         .then(() => {
-          if (dynamicValidateForm.fields.length <= 0) {
+          if (dynamicValidateForm.fieldList.length <= 0) {
             message.warning("必须有不少于一个的字段");
           } else {
             scrollTo(0, 0);
             resultStatus.value = 1;
-            formState.fieldList = JSON.parse(
-              JSON.stringify(dynamicValidateForm.fields)
-            );
-            getGenerateSql(JSON.parse(JSON.stringify(formState))).then(
+            getGenerateCode(JSON.parse(JSON.stringify(dynamicValidateForm))).then(
               (res) => {
-                editText.value = res.data.createSql;
+                editJavaDomain.value = res.data.domain;
                 resultStatus.value = 2;
               }
             );
@@ -557,7 +598,7 @@ export default defineComponent({
 
     // 改变数据表字段
     const changeField = (event, index) => {
-      dynamicValidateForm.fields[index].fieldType = event.dictLabel;
+      dynamicValidateForm.fieldList[index].fieldType = event.dictLabel;
     };
     const ChangeOnUpdate = () => {};
     return {
@@ -568,6 +609,8 @@ export default defineComponent({
       onTabChange,
       tabListNoTitle,
       activeKey: ref(["0"]),
+      JavaactiveKey: ref(["1"]),
+      activeCode: ref("1"),
       sqlValue,
       addFields,
       formItemLayoutWithOutLabel,
@@ -586,14 +629,14 @@ export default defineComponent({
       changeSql,
       changeField,
       resultStatus,
-      editText,
+      editJavaDomain,
       ChangeOnUpdate,
     };
   },
 });
 </script>
-
-<style lang="scss" scoped>
+  
+  <style lang="scss" scoped>
 .example {
   text-align: center;
   border-radius: 4px;
