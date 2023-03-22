@@ -18,7 +18,7 @@
               autocomplete="off"
             >
               <a-form-item label="数据库名称" name="databaseName">
-                <a-input v-model:value="formState.databaseName" />
+                <a-input v-model:value="dynamicValidateForm.databaseName" />
               </a-form-item>
 
               <a-form-item
@@ -30,19 +30,19 @@
                 <a-input v-model:value="dynamicValidateForm.tableName" />
               </a-form-item>
               <a-form-item label="表注释" name="tableComment">
-                <a-input v-model:value="formState.tableComment" />
+                <a-input v-model:value="dynamicValidateForm.tableComment" />
               </a-form-item>
 
               <a-form-item
-                v-if="dynamicValidateForm.fields.length > 0"
+                v-if="dynamicValidateForm.fieldList.length > 0"
                 :label-col="{ span: 0 }"
                 :wrapper-col="{ span: 24 }"
               >
                 <a-collapse
                   v-model:activeKey="activeKey"
-                  v-for="(field, index) in dynamicValidateForm.fields"
+                  v-for="(field, index) in dynamicValidateForm.fieldList"
                   :key="index"
-                  :name="['fields', index, 'field']"
+                  :name="['fieldList', index, 'field']"
                 >
                   <a-collapse-panel
                     :key="index"
@@ -60,7 +60,7 @@
                         <a-button
                           type="text"
                           size="small"
-                          v-if="index < dynamicValidateForm.fields.length - 1"
+                          v-if="index < dynamicValidateForm.fieldList.length - 1"
                           @click.stop="moveFeildDown(field, index)"
                           ><caret-down-outlined
                         /></a-button>
@@ -78,7 +78,7 @@
                         <a-col :span="12">
                           <a-form-item
                             label="字段名称"
-                            :name="['fields', index, 'fieldName']"
+                            :name="['fieldList', index, 'fieldName']"
                             v-bind="fieldLabel"
                             ref="fieldName"
                             :rules="{
@@ -424,11 +424,15 @@ export default defineComponent({
       },
     };
     const dynamicValidateForm = reactive<{
-      fields: Field[];
+      fieldList: Field[];
       tableName: string;
+      databaseName: string;
+      tableComment: string;
     }>({
-      fields: [],
+      fieldList: [],
       tableName: formState.tableName,
+      databaseName: formState.databaseName,
+      tableComment: formState.tableComment,
     });
     const { resetFields, validate, validateInfos } = useForm(
       dynamicValidateForm,
@@ -438,7 +442,7 @@ export default defineComponent({
       }
     );
     const addFields = () => {
-      dynamicValidateForm.fields.push({
+      dynamicValidateForm.fieldList.push({
         fieldName: "id",
         fieldType: "int",
         fieldTypeSize: 0,
@@ -488,23 +492,23 @@ export default defineComponent({
     // 添加通用字段
     const addCommenFields = () => {
       commentFieldArray.forEach((item) => {
-        dynamicValidateForm.fields.push(item);
+        dynamicValidateForm.fieldList.push(item);
       });
     };
     // 向上移动
     const moveFeildUp = (field: object, index: number) => {
-      dynamicValidateForm.fields[index] = dynamicValidateForm.fields[index - 1];
-      dynamicValidateForm.fields[index - 1] = field;
+      dynamicValidateForm.fieldList[index] = dynamicValidateForm.fieldList[index - 1];
+      dynamicValidateForm.fieldList[index - 1] = field;
     };
     // 向下移动
     const moveFeildDown = (field: object, index: number) => {
-      dynamicValidateForm.fields[index] = dynamicValidateForm.fields[index + 1];
-      dynamicValidateForm.fields[index + 1] = field;
+      dynamicValidateForm.fieldList[index] = dynamicValidateForm.fieldList[index + 1];
+      dynamicValidateForm.fieldList[index + 1] = field;
     };
     const removeDomain = (item: Field) => {
-      let index = dynamicValidateForm.fields.indexOf(item);
+      let index = dynamicValidateForm.fieldList.indexOf(item);
       if (index !== -1) {
-        dynamicValidateForm.fields.splice(index, 1);
+        dynamicValidateForm.fieldList.splice(index, 1);
       }
     };
     // 标签页切换
@@ -526,15 +530,13 @@ export default defineComponent({
       formRef.value
         .validate()
         .then(() => {
-          if (dynamicValidateForm.fields.length <= 0) {
+          if (dynamicValidateForm.fieldList.length <= 0) {
             message.warning("必须有不少于一个的字段");
           } else {
             scrollTo(0, 0);
             resultStatus.value = 1;
-            formState.fieldList = JSON.parse(
-              JSON.stringify(dynamicValidateForm.fields)
-            );
-            getGenerateSql(JSON.parse(JSON.stringify(formState))).then(
+
+            getGenerateSql(JSON.parse(JSON.stringify(dynamicValidateForm))).then(
               (res) => {
                 editText.value = res.data.createSql;
                 resultStatus.value = 2;
@@ -557,7 +559,7 @@ export default defineComponent({
 
     // 改变数据表字段
     const changeField = (event, index) => {
-      dynamicValidateForm.fields[index].fieldType = event.dictLabel;
+      dynamicValidateForm.fieldList[index].fieldType = event.dictLabel;
     };
     const ChangeOnUpdate = () => {};
     return {
