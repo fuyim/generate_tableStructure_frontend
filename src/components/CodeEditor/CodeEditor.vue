@@ -1,5 +1,5 @@
 <template>
-  <div id="codeEditBox" :text="text" :style="heights"></div>
+  <div class="codeEditBox" ref="codeEditBox" :text="text" :style="heights"></div>
 </template>
 
 <script lang="ts" setup>
@@ -11,7 +11,7 @@ import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker"
 import EditorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import { language as sqlLanguage } from "monaco-editor/esm/vs/basic-languages/sql/sql.js";
 import { useStore } from 'vuex'
-import { nextTick, onBeforeUnmount,  reactive, defineProps, defineEmits, watch, computed} from "vue";
+import { nextTick, onBeforeUnmount,  reactive, defineProps, defineEmits, watch, computed , ref} from "vue";
 interface EditProp {
   text: string;
   language: string;
@@ -100,6 +100,7 @@ self.MonacoEnvironment = {
   },
 };
 let editor: monaco.editor.IStandaloneCodeEditor;
+const codeEditBox = ref(HTMLElement);
 const editorInit = () => {
   nextTick(() => {
     monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
@@ -113,7 +114,7 @@ const editorInit = () => {
 
     !editor
       ? (editor = monaco.editor.create(
-          document.getElementById("codeEditBox") as HTMLElement,
+        codeEditBox.value as HTMLElement,
           {
             value: editProp.text, // 编辑器初始显示文字
             language: editProp.language, // 语言支持自行查阅demo
@@ -121,7 +122,7 @@ const editorInit = () => {
             theme: editProp.theme, // 官方自带三种主题vs, hc-black, or vs-dark
             foldingStrategy: "indentation",
             renderLineHighlight: "all", // 行亮
-            selectOnLineNumbers: true, // 显示行号
+            selectOnLineNumbers: false, // 显示行号
             minimap: {
               enabled: false,
             },

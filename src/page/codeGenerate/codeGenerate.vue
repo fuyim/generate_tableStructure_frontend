@@ -301,10 +301,29 @@
                 </template>
                 <a-collapse v-model:activeKey="JavaactiveKey">
                   <a-collapse-panel key="1" header="domain.java">
-                    <code-editor :text="editJavaDomain"></code-editor>
+                    <div class="codeEditor">
+                      <code-editor :text="editJavaDomain"></code-editor>
+                    </div>
                   </a-collapse-panel>
                   <a-collapse-panel key="2" header="mapper.java">
-                    <code-editor :text="editJavaDomain"></code-editor>
+                    <div class="codeEditor">
+                      <code-editor :text="editJavaMapper"></code-editor>
+                    </div>
+                  </a-collapse-panel>
+                  <a-collapse-panel key="3" header="service.java">
+                    <div class="codeEditor">
+                      <code-editor :text="editJavaService"></code-editor>
+                    </div>
+                  </a-collapse-panel>
+                   <a-collapse-panel key="4" header="serviceImpl.java">
+                    <div class="codeEditor">
+                      <code-editor :text="editJavaServiceImpl"></code-editor>
+                    </div>
+                  </a-collapse-panel>
+                  <a-collapse-panel key="5" header="controller.java">
+                    <div class="codeEditor">
+                      <code-editor :text="editJavaController"></code-editor>
+                    </div>
                   </a-collapse-panel>
                 </a-collapse>
               </a-tab-pane>
@@ -566,6 +585,10 @@ export default defineComponent({
       console.log(`selected ${value}`);
     };
     const editJavaDomain = ref("");
+    const editJavaMapper = ref("");
+    const editJavaService = ref("");
+    const editJavaServiceImpl = ref("");
+    const editJavaController = ref("");
     const generateCode = () => {
       formRef.value
         .validate()
@@ -578,6 +601,11 @@ export default defineComponent({
             getGenerateCode(JSON.parse(JSON.stringify(dynamicValidateForm))).then(
               (res) => {
                 editJavaDomain.value = res.data.domain;
+                editJavaMapper.value = res.data.mapper;
+                editJavaService.value = res.data.service;
+                editJavaServiceImpl.value = res.data.serviceImpl;
+                editJavaController.value = res.data.controller;
+                console.log(res)
                 resultStatus.value = 2;
               }
             );
@@ -609,7 +637,7 @@ export default defineComponent({
       onTabChange,
       tabListNoTitle,
       activeKey: ref(["0"]),
-      JavaactiveKey: ref(["1"]),
+      JavaactiveKey: ref('1'),
       activeCode: ref("1"),
       sqlValue,
       addFields,
@@ -630,6 +658,10 @@ export default defineComponent({
       changeField,
       resultStatus,
       editJavaDomain,
+      editJavaMapper,
+      editJavaService,
+      editJavaServiceImpl,
+      editJavaController,
       ChangeOnUpdate,
     };
   },
