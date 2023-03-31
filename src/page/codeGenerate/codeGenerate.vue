@@ -337,7 +337,13 @@
                     JavaScript
                   </span>
                 </template>
-                Tab 3
+                <a-collapse v-model:activeKey="JavaScriptKey">
+                  <a-collapse-panel key="1" header="api.js">
+                    <div class="codeEditor">
+                      <code-editor :text="editJavaScriptApi"></code-editor>
+                    </div>
+                  </a-collapse-panel>
+                </a-collapse>
               </a-tab-pane>
               <a-tab-pane key="3">
                 <template #tab>
@@ -589,6 +595,7 @@ export default defineComponent({
     const editJavaService = ref("");
     const editJavaServiceImpl = ref("");
     const editJavaController = ref("");
+    const editJavaScriptApi = ref("");
     const generateCode = () => {
       formRef.value
         .validate()
@@ -605,7 +612,7 @@ export default defineComponent({
                 editJavaService.value = res.data.service;
                 editJavaServiceImpl.value = res.data.serviceImpl;
                 editJavaController.value = res.data.controller;
-                console.log(res)
+                editJavaScriptApi.value = res.data.api;
                 resultStatus.value = 2;
               }
             );
@@ -638,6 +645,7 @@ export default defineComponent({
       tabListNoTitle,
       activeKey: ref(["0"]),
       JavaactiveKey: ref('1'),
+      JavaScriptKey:ref('1'),
       activeCode: ref("1"),
       sqlValue,
       addFields,
@@ -662,6 +670,7 @@ export default defineComponent({
       editJavaService,
       editJavaServiceImpl,
       editJavaController,
+      editJavaScriptApi,
       ChangeOnUpdate,
     };
   },
