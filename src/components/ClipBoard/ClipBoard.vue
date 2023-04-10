@@ -1,6 +1,6 @@
 <template>
   <div class="copyBtn">
-    <a-button class="copy" type="primary" size="default" @click="copyFun()">
+    <a-button :text="text" class="copy" type="primary" size="default" @click="copyFun()">
       <a-space>
         <span class="text">
           <svg-icon :color="color" iconName="icon-copy"></svg-icon>
@@ -21,6 +21,12 @@ const props = defineProps({
     type: String,
     default: "",
   },
+
+  text:{
+    type: String,
+    default: "",
+  }
+  
 });
 const store = useStore();
 
@@ -31,9 +37,16 @@ const color = computed(() => {
   return "#409eff";
 })
 
+const text = computed(() =>{
+  if (props.text){
+    return props.text;
+  }
+  return "";
+});
+
 const copyFun = () => {
-  console.log("store.getters.copyText", store.getters.copyText);
-  handleCopy(store.getters.copyText);
+  // console.log("store.getters.copyText", text.value);
+  handleCopy(text.value);
 };
 const handleCopy = async (copyText) => {
   let clipboard = new Clipboard(".copy", {

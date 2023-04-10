@@ -302,26 +302,31 @@
                 <a-collapse v-model:activeKey="JavaactiveKey">
                   <a-collapse-panel key="1" header="domain.java">
                     <div class="codeEditor">
-                      <code-editor :text="editJavaDomain"></code-editor>
+                      <clip-board :text="editJavaDomain" class="javaCodeCopy" color="#FFFFFF"></clip-board>
+                      <code-editor class="editJava" :text="editJavaDomain"></code-editor>
                     </div>
                   </a-collapse-panel>
                   <a-collapse-panel key="2" header="mapper.java">
                     <div class="codeEditor">
+                      <clip-board :text="editJavaMapper" class="javaCodeCopy" color="#FFFFFF"></clip-board>
                       <code-editor :text="editJavaMapper"></code-editor>
                     </div>
                   </a-collapse-panel>
                   <a-collapse-panel key="3" header="service.java">
                     <div class="codeEditor">
+                      <clip-board :text="editJavaService" class="javaCodeCopy" color="#FFFFFF"></clip-board>
                       <code-editor :text="editJavaService"></code-editor>
                     </div>
                   </a-collapse-panel>
                    <a-collapse-panel key="4" header="serviceImpl.java">
                     <div class="codeEditor">
+                      <clip-board :text="editJavaServiceImpl" class="javaCodeCopy" color="#FFFFFF"></clip-board>
                       <code-editor :text="editJavaServiceImpl"></code-editor>
                     </div>
                   </a-collapse-panel>
                   <a-collapse-panel key="5" header="controller.java">
                     <div class="codeEditor">
+                      <clip-board :text="editJavaController" class="javaCodeCopy" color="#FFFFFF"></clip-board>
                       <code-editor :text="editJavaController"></code-editor>
                     </div>
                   </a-collapse-panel>
@@ -340,6 +345,7 @@
                 <a-collapse v-model:activeKey="JavaScriptKey">
                   <a-collapse-panel key="1" header="api.js">
                     <div class="codeEditor">
+                      <clip-board :text="editJavaScriptApi" class="javaCodeCopy" color="#FFFFFF"></clip-board>
                       <code-editor :text="editJavaScriptApi"></code-editor>
                     </div>
                   </a-collapse-panel>
@@ -686,4 +692,17 @@ export default defineComponent({
   margin: 20px 0;
   height: 130px;
 }
+
+.codeEditor{
+  position: relative;
+}
+
+.javaCodeCopy{
+  position: absolute;
+  top: 30px;
+  right: 20px;
+  z-index: 1;
+  opacity: 0.5;
+}
+
 </style>

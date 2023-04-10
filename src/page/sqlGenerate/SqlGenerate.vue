@@ -275,7 +275,7 @@
       <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
         <a-card title="生成结果">
           <template v-if="resultStatus === 2" #extra
-            ><clip-board color="#FFFFFF">一键复制</clip-board></template
+            ><clip-board :text="editText" color="#FFFFFF">一键复制</clip-board></template
           >
           <a-empty
             image="https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original"
