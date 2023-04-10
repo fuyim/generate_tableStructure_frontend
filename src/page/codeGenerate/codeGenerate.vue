@@ -63,7 +63,9 @@
                         <a-button
                           type="text"
                           size="small"
-                          v-if="index < dynamicValidateForm.fieldList.length - 1"
+                          v-if="
+                            index < dynamicValidateForm.fieldList.length - 1
+                          "
                           @click.stop="moveFeildDown(field, index)"
                           ><caret-down-outlined
                         /></a-button>
@@ -302,31 +304,54 @@
                 <a-collapse v-model:activeKey="JavaactiveKey">
                   <a-collapse-panel key="1" header="domain.java">
                     <div class="codeEditor">
-                      <clip-board :text="editJavaDomain" class="javaCodeCopy" color="#FFFFFF"></clip-board>
-                      <code-editor class="editJava" :text="editJavaDomain"></code-editor>
+                      <clip-board
+                        :text="editJavaDomain"
+                        class="javaCodeCopy"
+                        color="#FFFFFF"
+                      ></clip-board>
+                      <code-editor
+                        class="editJava"
+                        :text="editJavaDomain"
+                      ></code-editor>
                     </div>
                   </a-collapse-panel>
                   <a-collapse-panel key="2" header="mapper.java">
                     <div class="codeEditor">
-                      <clip-board :text="editJavaMapper" class="javaCodeCopy" color="#FFFFFF"></clip-board>
+                      <clip-board
+                        :text="editJavaMapper"
+                        class="javaCodeCopy"
+                        color="#FFFFFF"
+                      ></clip-board>
                       <code-editor :text="editJavaMapper"></code-editor>
                     </div>
                   </a-collapse-panel>
                   <a-collapse-panel key="3" header="service.java">
                     <div class="codeEditor">
-                      <clip-board :text="editJavaService" class="javaCodeCopy" color="#FFFFFF"></clip-board>
+                      <clip-board
+                        :text="editJavaService"
+                        class="javaCodeCopy"
+                        color="#FFFFFF"
+                      ></clip-board>
                       <code-editor :text="editJavaService"></code-editor>
                     </div>
                   </a-collapse-panel>
-                   <a-collapse-panel key="4" header="serviceImpl.java">
+                  <a-collapse-panel key="4" header="serviceImpl.java">
                     <div class="codeEditor">
-                      <clip-board :text="editJavaServiceImpl" class="javaCodeCopy" color="#FFFFFF"></clip-board>
+                      <clip-board
+                        :text="editJavaServiceImpl"
+                        class="javaCodeCopy"
+                        color="#FFFFFF"
+                      ></clip-board>
                       <code-editor :text="editJavaServiceImpl"></code-editor>
                     </div>
                   </a-collapse-panel>
                   <a-collapse-panel key="5" header="controller.java">
                     <div class="codeEditor">
-                      <clip-board :text="editJavaController" class="javaCodeCopy" color="#FFFFFF"></clip-board>
+                      <clip-board
+                        :text="editJavaController"
+                        class="javaCodeCopy"
+                        color="#FFFFFF"
+                      ></clip-board>
                       <code-editor :text="editJavaController"></code-editor>
                     </div>
                   </a-collapse-panel>
@@ -345,19 +370,23 @@
                 <a-collapse v-model:activeKey="JavaScriptKey">
                   <a-collapse-panel key="1" header="api.js">
                     <div class="codeEditor">
-                      <clip-board :text="editJavaScriptApi" class="javaCodeCopy" color="#FFFFFF"></clip-board>
+                      <clip-board
+                        :text="editJavaScriptApi"
+                        class="javaCodeCopy"
+                        color="#FFFFFF"
+                      ></clip-board>
                       <code-editor :text="editJavaScriptApi"></code-editor>
                     </div>
                   </a-collapse-panel>
                 </a-collapse>
               </a-tab-pane>
-              <a-tab-pane key="3">
+              <!-- <a-tab-pane key="3">
                 <template #tab>
                   <span>
                     <svg-icon iconName="icon-vuejs" size="10"></svg-icon> Vue.JS
                   </span>
                 </template>
-              </a-tab-pane>
+              </a-tab-pane> -->
             </a-tabs>
           </div>
         </a-card>
@@ -368,7 +397,12 @@
   
   <script lang='ts'>
 import { defineComponent, ref, reactive, watch } from "vue";
-import { MenuProps, CollapseProps, message } from "ant-design-vue";
+import {
+  MenuProps,
+  CollapseProps,
+  message,
+  notification,
+} from "ant-design-vue";
 import { Form } from "ant-design-vue";
 import { useStore } from "vuex";
 import type { FormInstance } from "ant-design-vue";
@@ -503,7 +537,7 @@ export default defineComponent({
       fieldList: [],
       tableName: formState.tableName,
       packageName: formState.packageName,
-      tableComment: formState.tableComment
+      tableComment: formState.tableComment,
     });
     const { resetFields, validate, validateInfos } = useForm(
       dynamicValidateForm,
@@ -568,12 +602,14 @@ export default defineComponent({
     };
     // 向上移动
     const moveFeildUp = (field: object, index: number) => {
-      dynamicValidateForm.fieldList[index] = dynamicValidateForm.fieldList[index - 1];
+      dynamicValidateForm.fieldList[index] =
+        dynamicValidateForm.fieldList[index - 1];
       dynamicValidateForm.fieldList[index - 1] = field;
     };
     // 向下移动
     const moveFeildDown = (field: object, index: number) => {
-      dynamicValidateForm.fieldList[index] = dynamicValidateForm.fieldList[index + 1];
+      dynamicValidateForm.fieldList[index] =
+        dynamicValidateForm.fieldList[index + 1];
       dynamicValidateForm.fieldList[index + 1] = field;
     };
     const removeDomain = (item: Field) => {
@@ -606,22 +642,46 @@ export default defineComponent({
       formRef.value
         .validate()
         .then(() => {
+          console.log(dynamicValidateForm.fieldList);
+          let primaryKeyCount = 0;
+          dynamicValidateForm.fieldList.forEach((item) => {
+            if (item.primaryKey) {
+              primaryKeyCount++;
+            }
+          });
+          console.log(primaryKeyCount);
+          if (primaryKeyCount < 1) {
+            notification['warning']({
+              message: "温馨提醒！",
+              description:
+                "请为你的表结构选择一个主键！",
+              placement: 'topLeft'
+            });
+          }else if(primaryKeyCount > 1){
+            notification['warning']({
+              message: "温馨提醒！",
+              description:
+                "你有超出的主键,一张表只存在一个主键！",
+              placement: 'topLeft'
+            });
+          }
+
           if (dynamicValidateForm.fieldList.length <= 0) {
             message.warning("必须有不少于一个的字段");
           } else {
             scrollTo(0, 0);
             resultStatus.value = 1;
-            getGenerateCode(JSON.parse(JSON.stringify(dynamicValidateForm))).then(
-              (res) => {
-                editJavaDomain.value = res.data.domain;
-                editJavaMapper.value = res.data.mapper;
-                editJavaService.value = res.data.service;
-                editJavaServiceImpl.value = res.data.serviceImpl;
-                editJavaController.value = res.data.controller;
-                editJavaScriptApi.value = res.data.api;
-                resultStatus.value = 2;
-              }
-            );
+            getGenerateCode(
+              JSON.parse(JSON.stringify(dynamicValidateForm))
+            ).then((res) => {
+              editJavaDomain.value = res.data.domain;
+              editJavaMapper.value = res.data.mapper;
+              editJavaService.value = res.data.service;
+              editJavaServiceImpl.value = res.data.serviceImpl;
+              editJavaController.value = res.data.controller;
+              editJavaScriptApi.value = res.data.api;
+              resultStatus.value = 2;
+            });
           }
         })
         .catch((error) => {
@@ -650,8 +710,8 @@ export default defineComponent({
       onTabChange,
       tabListNoTitle,
       activeKey: ref(["0"]),
-      JavaactiveKey: ref('1'),
-      JavaScriptKey:ref('1'),
+      JavaactiveKey: ref("1"),
+      JavaScriptKey: ref("1"),
       activeCode: ref("1"),
       sqlValue,
       addFields,
@@ -693,16 +753,22 @@ export default defineComponent({
   height: 130px;
 }
 
-.codeEditor{
+.codeEditor {
   position: relative;
 }
 
-.javaCodeCopy{
+.javaCodeCopy {
   position: absolute;
   top: 30px;
   right: 20px;
   z-index: 1;
   opacity: 0.5;
+  visibility: hidden;
 }
 
+.codeEditor:hover {
+  .javaCodeCopy {
+    visibility: visible;
+  }
+}
 </style>
